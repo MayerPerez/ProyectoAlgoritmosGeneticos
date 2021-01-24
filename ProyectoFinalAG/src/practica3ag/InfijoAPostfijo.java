@@ -1,9 +1,13 @@
+/*
+Proyecto Final del Curso
+Integrantes:
+    -Pérez González Mayer Abraham
+    -Urbina Villa Noe
+Genetic Algorithms 3CM1
+*/
+
 package practica3ag;
 
-/**
- *
- * @author Noé
- */
 import static java.lang.Integer.parseInt;
 import java.util.Scanner;
 import java.util.Stack;

@@ -1,6 +1,8 @@
 /*
-Practica 3:Diseño de un AG simple
-Pérez González Mayer Abraham
+Proyecto Final del Curso
+Integrantes:
+    -Pérez González Mayer Abraham
+    -Urbina Villa Noe
 Genetic Algorithms 3CM1
 */
 package practica3ag;
