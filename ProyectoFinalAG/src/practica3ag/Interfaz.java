@@ -25,6 +25,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -38,13 +39,8 @@ public class Interfaz {
     private JPanel pnlMain;
     private JPanel pnlGraf;
     private JLabel lblSelecF;
-    private JRadioButton rbtnf1;
-    private JRadioButton rbtnf2;
-    private JRadioButton rbtnf3;
-    private ButtonGroup grp;
-    private JLabel lblf1;
-    private JLabel lblf2;
-    private JLabel lblf3;
+    private JButton btnIngrFunc;
+    private JLabel lblFunc;
     private JLabel lblSelecTAG;
     private JRadioButton rbtnModGen;
     private JRadioButton rbtnModElit;
@@ -80,6 +76,13 @@ public class Interfaz {
     private JRadioButton rbtnMutHeuristica;
     private ButtonGroup grp6;
     //--------------------------
+    private JFrame jfSelecFunc;
+    private JPanel jpSelecFunc;
+    private JTextArea jtaIndIngFunc;
+    private JLabel lblIngFunc;
+    private JTextField jtfIngFunc;
+    private JButton btnAddFunc;
+    //---------------------------
     private JButton btnAcept;
     private JLabel lblFunction;
     private JLabel lblIndMax;//Falta
@@ -94,6 +97,7 @@ public class Interfaz {
     private JFreeChart chart;
     private ChartPanel panelG;
     private int cont;
+    private String funcion = "";
     private String titles[] = {"No. Individuo","Genotipo","Fenotipo","f(x)"};
     
     public Interfaz(){
@@ -102,7 +106,7 @@ public class Interfaz {
     
     private void initMainComponents(){
         int w = 500;
-        int h = 530;
+        int h = 580;//530
         jfMain = new JFrame();
         jfMain.setSize(w, h);
         jfMain.setLocationRelativeTo(null);
@@ -111,14 +115,9 @@ public class Interfaz {
         jfMain.setLayout(null);
         
         pnlMain = new JPanel(null);
-        lblSelecF = new JLabel("Selecciona la funcion a optimizar:");
-        rbtnf1 = new JRadioButton();
-        rbtnf2 = new JRadioButton();
-        rbtnf3 = new JRadioButton();
-        grp = new ButtonGroup();
-        lblf1 = new JLabel();
-        lblf2 = new JLabel();
-        lblf3 = new JLabel();
+        lblSelecF = new JLabel("Ingresa la funcion a optimizar:");
+        btnIngrFunc = new JButton("Ingresar Formula");
+        lblFunc = new JLabel();
         lblSelecTAG = new JLabel("Selecciona el tipo de algoritmo genetico:");
         rbtnModGen = new JRadioButton("Modelo Generacional");
         rbtnModElit = new JRadioButton("Modelo Elitista");
@@ -156,14 +155,6 @@ public class Interfaz {
         btnAcept = new JButton("Aceptar");
         
         lblSelecF.setForeground(Color.red);
-        rbtnf1.setSelected(true);
-        grp.add(rbtnf1);
-        grp.add(rbtnf2);
-        grp.add(rbtnf3);
-        lblf1.setIcon(new ImageIcon("f1.PNG"));
-        lblf2.setIcon(new ImageIcon(new ImageIcon("f2.PNG")
-                .getImage().getScaledInstance(150, 30, Image.SCALE_SMOOTH)));
-        lblf3.setIcon(new ImageIcon("f3.PNG"));
         lblSelecTAG.setForeground(Color.red);
         grp2.add(rbtnModGen);
         grp2.add(rbtnModElit);
@@ -196,12 +187,8 @@ public class Interfaz {
         
         pnlMain.setBounds(0, 0, w, h);
         lblSelecF.setBounds(3, 0, 200, 20);
-        rbtnf1.setBounds(0, 20, 20, 30);
-        rbtnf2.setBounds(0, 50, 20, 30);
-        rbtnf3.setBounds(0, 80, 20, 30);
-        lblf1.setBounds(20, 20, 100, 30);
-        lblf2.setBounds(20, 50, 150, 30);
-        lblf3.setBounds(20, 80, 160, 30);
+        btnIngrFunc.setBounds(20, 40, 150, 25);
+        lblFunc.setBounds(5, 80, 100, 30);
         lblSelecTAG.setBounds(240, 0, 250, 20);//3, 130, 250, 20
         rbtnModGen.setBounds(240, 20, 150, 20);
         rbtnModElit.setBounds(240, 50, 150, 20);
@@ -219,27 +206,22 @@ public class Interfaz {
         rbtnSelPorRuleta.setBounds(240, 240, 200, 20);
         rbtnSelEstocasticaCR.setBounds(240, 260, 250, 20);
         rbtnSelEstocasticaSR.setBounds(240, 280, 250, 20);
-        lblSelecTCruza.setBounds(0, 300, 200, 20);
-        rbtnCruza1Punto.setBounds(0, 320, 200, 20);
-        rbtnCruza2Punto.setBounds(0, 340, 200, 20);
-        rbtnCruzaNPunto.setBounds(0, 360, 200, 20);
-        lblSelectTMutacion.setBounds(240, 300, 200, 20);
-        rbtnMutAleatoria.setBounds(240, 320, 200, 20);
-        rbtnMutInsercion.setBounds(240, 340, 200, 20);
-        rbtnMutDesplazamiento.setBounds(240, 360, 200, 20);
-        rbtnMutInterReciproco.setBounds(240, 380, 250, 20);
-        rbtnMutHeuristica.setBounds(240, 400, 200, 20);
-        lblSelecNumInd.setBounds(3, 420, 350, 20);
-        txfNumInd.setBounds(10, 440, 40, 20);
-        btnAcept.setBounds(180, 470, 100, 20);
+        lblSelecTCruza.setBounds(0, 330, 200, 20);
+        rbtnCruza1Punto.setBounds(0, 350, 200, 20);
+        rbtnCruza2Punto.setBounds(0, 370, 200, 20);
+        rbtnCruzaNPunto.setBounds(0, 390, 200, 20);
+        lblSelectTMutacion.setBounds(240, 330, 200, 20);
+        rbtnMutAleatoria.setBounds(240, 350, 200, 20);
+        rbtnMutInsercion.setBounds(240, 370, 200, 20);
+        rbtnMutDesplazamiento.setBounds(240, 390, 200, 20);
+        rbtnMutInterReciproco.setBounds(240, 410, 250, 20);
+        rbtnMutHeuristica.setBounds(240, 430, 200, 20);
+        lblSelecNumInd.setBounds(3, 450, 350, 20);
+        txfNumInd.setBounds(10, 470, 40, 20);
+        btnAcept.setBounds(180, 500, 100, 20);
         
         pnlMain.add(lblSelecF);
-        pnlMain.add(rbtnf1);
-        pnlMain.add(rbtnf2);
-        pnlMain.add(rbtnf3);
-        pnlMain.add(lblf1);
-        pnlMain.add(lblf2);
-        pnlMain.add(lblf3);
+        pnlMain.add(btnIngrFunc);
         pnlMain.add(lblSelecTAG);
         pnlMain.add(rbtnModGen);
         pnlMain.add(rbtnModElit);
@@ -278,24 +260,14 @@ public class Interfaz {
         jfMain.setVisible(true);
     }
     private void initMainEvents(){
+        btnIngrFunc.addActionListener((ActionEvent event) -> {
+            initComponentsIngFunc();
+        });
         btnAcept.addActionListener((ActionEvent event) -> {
             try{
-                int nF,lMin,lMax,tR,nI,dif,tS,tC,tM,nG;
+                int lMin,lMax,tR,nI,dif,tS,tC,tM,nG;
                 lblFunction = new JLabel();
-                
-                if(rbtnf1.isSelected()){
-                    nF = 0;
-                    lblFunction.setIcon(new ImageIcon("f1.PNG")); ;
-                }
-                else if(rbtnf2.isSelected()){
-                    nF = 1;
-                    lblFunction.setIcon(new ImageIcon(new ImageIcon("f2.PNG")
-                    .getImage().getScaledInstance(150, 30, Image.SCALE_SMOOTH)));
-                }
-                else{
-                    nF = 2;
-                    lblFunction.setIcon(new ImageIcon("f3.PNG")); ;
-                }
+                lblFunction.setText(funcion);
                 nG = Integer.parseInt(txfNumGen.getText());
                 if(nG <= 0){
                     throw new LanzarException(3);
@@ -344,7 +316,7 @@ public class Interfaz {
                 else
                     tM = 4;
                 cont = 0;
-                opt = new Optimizacion(nF,lMin,lMax,tR,nI);
+                //opt = new Optimizacion(nF,lMin,lMax,tR,nI);
                 for(int i=0;i<nG;i++){
                     opt.iteracion(tS, tC, tM);
                 }
@@ -362,6 +334,71 @@ public class Interfaz {
             }
         });
     }
+    
+    private void initComponentsIngFunc(){
+        int w = 400;
+        int h = 300;
+        jfSelecFunc = new JFrame();
+        jfSelecFunc.setSize(w, h);
+        jfSelecFunc.setLocationRelativeTo(null);
+        jfSelecFunc.setTitle("Ingresar nueva funcion");
+        jfSelecFunc.setResizable(false);
+        jfSelecFunc.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jfSelecFunc.setLayout(null);
+        
+        jpSelecFunc = new JPanel(null);
+        jtaIndIngFunc = new JTextArea();
+        lblIngFunc = new JLabel("Ingresa Funcion:");
+        jtfIngFunc = new JTextField();
+        btnAddFunc = new JButton("Ingresar Funcion");
+        
+        jtaIndIngFunc.setText("INDICACIONES:\n");
+        
+        jtaIndIngFunc.setEditable(false);
+        
+        jpSelecFunc.setBounds(0, 0, w, h);
+        jtaIndIngFunc.setBounds(0, 3, w, 180);
+        lblIngFunc.setBounds(5,190,100,30);
+        jtfIngFunc.setBounds(105,190,250,30);
+        btnAddFunc.setBounds(110,230,150,20);
+        
+        intiEventsIngFunc();
+        
+        jpSelecFunc.add(jtaIndIngFunc);
+        jpSelecFunc.add(lblIngFunc);
+        jpSelecFunc.add(jtfIngFunc);
+        jpSelecFunc.add(btnAddFunc);
+        
+        jfSelecFunc.add(jpSelecFunc);
+        jfSelecFunc.setVisible(true);
+    }
+    
+    private void intiEventsIngFunc(){
+        btnAddFunc.addActionListener((ActionEvent event) -> {
+            try{
+                funcion = jtfIngFunc.getText();
+                System.out.println("F"+funcion+"F");
+                if(funcion.equals("")){
+                    throw new LanzarException(4);
+                }
+                else{
+                    lblFunc.setText("Funcion:  "+funcion);
+                    pnlMain.add(lblFunc);
+                    jfMain.repaint();
+                    jfSelecFunc.setVisible(false);
+                }
+            }
+            catch(LanzarException e){
+                //e.printStackTrace();
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(pnlMain,"Datos introducidos incorrectos.","Error",
+                        JOptionPane.WARNING_MESSAGE);
+                e.printStackTrace();
+            }
+        });
+    }
+    
     private void showData(){
         int w = 700;
         int h = 660;
@@ -510,6 +547,10 @@ public class Interfaz {
             else if(n == 3)
                 JOptionPane.showMessageDialog(pnlMain, "El numero de generaciones debe ser\nmayor o igual a 1.",
                     "Pocas generaciones",JOptionPane.WARNING_MESSAGE);
+            else if(n == 4){
+                JOptionPane.showMessageDialog(jfSelecFunc, "No se ha introducido funcion.",
+                    "Introduce funcion",JOptionPane.WARNING_MESSAGE);
+            }
         }
     }
     
