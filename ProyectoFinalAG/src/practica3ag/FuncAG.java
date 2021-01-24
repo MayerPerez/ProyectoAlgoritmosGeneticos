@@ -148,9 +148,9 @@ public class FuncAG {
         }
         return aux;
     }
-    public static ArrayList<Individuo> selecEstocasticaConRemplazo(ArrayList<Individuo> genIni,int nf){
+    public static ArrayList<Individuo> selecEstocasticaConRemplazo(ArrayList<Individuo> genIni,String f){
         ArrayList<Individuo> aux = new ArrayList<>();
-        Generacion gaux = new Generacion(genIni,nf);
+        Generacion gaux = new Generacion(genIni,f);
         int cont=0;
         double ve;
         //ciclo para obtener el valor esperado de cada individuo
@@ -178,9 +178,9 @@ public class FuncAG {
         }
         return aux;
     }
-    public static ArrayList<Individuo> selecEstocasticaSinRemplazo(ArrayList<Individuo> genIni,int nf){
+    public static ArrayList<Individuo> selecEstocasticaSinRemplazo(ArrayList<Individuo> genIni,String f){
         ArrayList<Individuo> aux = new ArrayList<>();
-        Generacion gaux = new Generacion(genIni,nf);
+        Generacion gaux = new Generacion(genIni,f);
         int cont=0;
         double ve;
         //ciclo para obtener el valor esperado de cada individuo

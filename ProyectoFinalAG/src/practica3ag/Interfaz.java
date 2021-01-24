@@ -316,7 +316,7 @@ public class Interfaz {
                 else
                     tM = 4;
                 cont = 0;
-                //opt = new Optimizacion(nF,lMin,lMax,tR,nI);
+                opt = new Optimizacion(funcion,lMin,lMax,tR,nI);
                 for(int i=0;i<nG;i++){
                     opt.iteracion(tS, tC, tM);
                 }

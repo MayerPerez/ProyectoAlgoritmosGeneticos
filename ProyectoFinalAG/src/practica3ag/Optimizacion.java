@@ -16,15 +16,15 @@ public class Optimizacion {
     private int limMax;
     private  int limMin;
     private int numBits;
-    private int numFunction;
+    private String Function;
     private int tipoRepre;
     private int numInd;
     
-    public Optimizacion(int nF, int lMin, int lMax,int tR, int nI){
+    public Optimizacion(String F, int lMin, int lMax,int tR, int nI){
         limMin = lMin;
         limMax = lMax;
         numBits = FuncAG.numBits(lMax);
-        numFunction = nF;
+        Function = F;
         tipoRepre = tR;
         numInd = nI;
         //Se generan individuos aleatorios sin repeticion
@@ -42,7 +42,7 @@ public class Optimizacion {
                 gen.add(ind);
             }
         }
-        generaciones.add(new Generacion(gen,nF));
+        generaciones.add(new Generacion(gen,F));
         
     }
     
@@ -51,7 +51,7 @@ public class Optimizacion {
         aux = seleccion(tS);
         aux = cruza(tC,aux);
         aux = mutacion(tM,aux);
-        generaciones.add(new Generacion(aux,numFunction));
+        generaciones.add(new Generacion(aux,Function));
     }
     
     public ArrayList<Individuo> seleccion(int tS){
@@ -65,10 +65,10 @@ public class Optimizacion {
                 aux = FuncAG.selecPorRuleta(generaciones.get(g).getGeneracion());
             break;
             case 2:
-                aux = FuncAG.selecEstocasticaConRemplazo(generaciones.get(g).getGeneracion(),numFunction);
+                aux = FuncAG.selecEstocasticaConRemplazo(generaciones.get(g).getGeneracion(),Function);
             break;
             case 3:
-                aux = FuncAG.selecEstocasticaSinRemplazo(generaciones.get(g).getGeneracion(),numFunction);
+                aux = FuncAG.selecEstocasticaSinRemplazo(generaciones.get(g).getGeneracion(),Function);
             break;
             default:
                 aux = null;

@@ -19,14 +19,11 @@ public class InfijoAPostfijo {
     /**
      */
     //public static void main(String[] args) {
-    public String InfiPostfi(){
+    public static String InfiPostfi(String exp){
         
-    //Entrada de datos
-    System.out.println("*Escribe una expresión algebraica: ");
-    Scanner leer = new Scanner(System.in);
-
+    
     //Depurar la expresion algebraica
-    String expr = depurar(leer.nextLine());
+    String expr = depurar(exp);
     String[] arrayInfix = expr.split(" ");
 
     //Declaración de las pilas
@@ -113,11 +110,13 @@ public class InfijoAPostfijo {
     return String.valueOf(valor);
 }
   
-    public double Evaluation(String expr,int valor){  
+    public static double Evaluation(String expr,int valor){  
    
+    String exprP = InfiPostfi(expr);
+        
     double resultado;
     //Entrada (Expresión en Postfija)
-    String[] post = expr.split(" ");   
+    String[] post = exprP.split(" ");   
    
     //Declaración de las pilas
     Stack < String > E = new Stack <  > (); //Pila entrada
@@ -149,9 +148,9 @@ public class InfijoAPostfijo {
     }
 
     //Mostrar resultados:
-    System.out.println("Expresion: " + expr);
+    System.out.println("Expresion: " + exprP);
     System.out.println("Resultado: " + P.peek());
-    resultado = parseInt(P.peek());
+    resultado = parseInt(P.peek()); //si regresa double? o entero?
     return resultado;
   }
 

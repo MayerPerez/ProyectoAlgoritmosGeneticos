@@ -15,24 +15,12 @@ public class Generacion {
     private  int indMin;
     private double prom;
     
-    public Generacion(ArrayList<Individuo> g,int nF){
+    public Generacion(ArrayList<Individuo> g,String F){
         Individuos = g;
         prom = 0;
         //Se evaluan los individuos en la funcion fitness selecionada
         for(Individuo indAux: Individuos){
-            switch (nF) {
-                case 0:
-                    indAux.setVFitness((double)f1(indAux.getFenotipo()));
-                    break;
-                case 1:
-                    indAux.setVFitness(f2(indAux.getFenotipo()));
-                    break;
-                case 2:
-                    indAux.setVFitness(f3(indAux.getFenotipo()));
-                    break;
-                default:
-                    break;
-            }
+            indAux.setVFitness(InfijoAPostfijo.Evaluation(F,indAux.getFenotipo()));
             prom += indAux.getVFitness();
         }
         prom = prom/g.size();
