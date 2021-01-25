@@ -166,7 +166,7 @@ public class InfijoAPostfijo {
     if (op.equals("*")) return (num1 * num2);
     if (op.equals("/")) return (num1 / num2);
     if (op.equals("%")) return (num1 % num2);
-    if (op.equals("^")) return (int) (Math.pow(num1, num2));
+    if (op.equals("^")) return (Math.pow(num1, num2));
     return 0;
   }
   

@@ -392,7 +392,6 @@ public class Interfaz {
         btnAddFunc.addActionListener((ActionEvent event) -> {
             try{
                 funcion = jtfIngFunc.getText();
-                System.out.println("F"+funcion+"F");
                 if(funcion.equals("")){
                     throw new LanzarException(4);
                 }
