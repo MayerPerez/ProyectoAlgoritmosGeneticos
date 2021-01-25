@@ -24,7 +24,7 @@ public class InfijoAPostfijo {
     
         //Depurar la expresion algebraica
         String expr = depurar(exp);
-        System.out.println("Expresion dep:"+expr);
+        //System.out.println("Expresion dep:"+expr);
         String[] arrayInfix = expr.split(" ");
 
         //Declaración de las pilas
@@ -70,8 +70,8 @@ public class InfijoAPostfijo {
           String postfix = S.toString().replaceAll("[\\]\\[,]", "");
 
           //Mostrar resultados:
-          System.out.println("Expresion Infija: " + infix);
-          System.out.println("Expresion Postfija: " + postfix);
+          //System.out.println("Expresion Infija: " + infix);
+          //System.out.println("Expresion Postfija: " + postfix);
 
 
         //}catch(Exception ex){ 
@@ -152,8 +152,8 @@ public class InfijoAPostfijo {
     }
 
     //Mostrar resultados:
-    System.out.println("Expresion: " + exprP);
-    System.out.println("Resultado: " + P.peek());
+    //System.out.println("Expresion: " + exprP);
+    //System.out.println("Resultado: " + P.peek());
     resultado = Double.parseDouble(P.peek()); //si regresa double? o entero?
     return resultado;
   }

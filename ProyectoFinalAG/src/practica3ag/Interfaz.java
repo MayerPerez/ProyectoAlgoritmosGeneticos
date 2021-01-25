@@ -62,6 +62,8 @@ public class Interfaz {
     private JRadioButton rbtnSelPorRuleta;
     private JRadioButton rbtnSelEstocasticaCR;
     private JRadioButton rbtnSelEstocasticaSR;
+    private JRadioButton rbtnSelPorJerarquia;
+    private JRadioButton rbtnSelPorTorneo;
     private ButtonGroup grp4;
     private JLabel lblSelecTCruza;
     private JRadioButton rbtnCruza1Punto;
@@ -137,8 +139,10 @@ public class Interfaz {
         lblSelecTSelec = new JLabel("Elige el tipo de seleccion:");
         rbtnSelEstandar = new JRadioButton("Seleccion Estandar");
         rbtnSelPorRuleta = new JRadioButton("Seleccion Por Ruleta");
-        rbtnSelEstocasticaCR = new JRadioButton("Seleccion Estoacastica con Remplazo");
-        rbtnSelEstocasticaSR = new JRadioButton("Seleccion Estoacastica sin Remplazo");
+        rbtnSelEstocasticaCR = new JRadioButton("Seleccion Estocastica con Remplazo");
+        rbtnSelEstocasticaSR = new JRadioButton("Seleccion Estocastica sin Remplazo");
+        rbtnSelPorJerarquia = new JRadioButton("Seleccion Por Jerarquia");
+        rbtnSelPorTorneo = new JRadioButton("Seleccion Por Torneo");
         grp4 = new ButtonGroup();
         lblSelecTCruza = new JLabel("Selecciona el tipo de cruza:");
         rbtnCruza1Punto = new JRadioButton("Cruza de 1 Punto");
@@ -172,6 +176,8 @@ public class Interfaz {
         grp4.add(rbtnSelPorRuleta);
         grp4.add(rbtnSelEstocasticaCR);
         grp4.add(rbtnSelEstocasticaSR);
+        grp4.add(rbtnSelPorJerarquia);
+        grp4.add(rbtnSelPorTorneo);
         lblSelecTCruza.setForeground(Color.red);
         rbtnCruza1Punto.setSelected(true);
         grp5.add(rbtnCruza1Punto);
@@ -192,20 +198,22 @@ public class Interfaz {
         lblSelecTAG.setBounds(240, 0, 250, 20);//3, 130, 250, 20
         rbtnModGen.setBounds(240, 20, 150, 20);
         rbtnModElit.setBounds(240, 50, 150, 20);
-        lblSelecNumGen.setBounds(3, 130, 250, 20);//3, 210, 250, 20
-        txfNumGen.setBounds(10, 160, 40, 20);
-        lblSelecR.setBounds(240, 130, 200, 20);//3, 270, 200, 20
-        txfRmin.setBounds(247, 160, 40, 20);
-        a.setBounds(297, 160, 10, 20);
-        txfRmax.setBounds(317, 160, 40, 20);
-        lblSelecModR.setBounds(3, 200, 250, 20);//3, 330, 250, 20
-        rbtnBin.setBounds(0, 220, 200, 20);
-        rbtnGray.setBounds(0, 240, 200, 20);
-        lblSelecTSelec.setBounds(240, 200, 200, 20);
-        rbtnSelEstandar.setBounds(240, 220, 200, 20);
-        rbtnSelPorRuleta.setBounds(240, 240, 200, 20);
-        rbtnSelEstocasticaCR.setBounds(240, 260, 250, 20);
-        rbtnSelEstocasticaSR.setBounds(240, 280, 250, 20);
+        lblSelecNumGen.setBounds(3, 110, 250, 20);//3, 210, 250, 20
+        txfNumGen.setBounds(10, 140, 40, 20);
+        lblSelecR.setBounds(240, 110, 200, 20);//3, 270, 200, 20
+        txfRmin.setBounds(247, 140, 40, 20);
+        a.setBounds(297, 140, 10, 20);
+        txfRmax.setBounds(317, 140, 40, 20);
+        lblSelecModR.setBounds(3, 180, 250, 20);//3, 330, 250, 20
+        rbtnBin.setBounds(0, 200, 200, 20);
+        rbtnGray.setBounds(0, 220, 200, 20);
+        lblSelecTSelec.setBounds(240, 180, 200, 20);
+        rbtnSelEstandar.setBounds(240, 200, 200, 20);
+        rbtnSelPorRuleta.setBounds(240, 220, 200, 20);
+        rbtnSelEstocasticaCR.setBounds(240, 240, 250, 20);
+        rbtnSelEstocasticaSR.setBounds(240, 260, 250, 20);
+        rbtnSelPorJerarquia.setBounds(240, 280, 200, 20);
+        rbtnSelPorTorneo.setBounds(240, 300, 200, 20);
         lblSelecTCruza.setBounds(0, 330, 200, 20);
         rbtnCruza1Punto.setBounds(0, 350, 200, 20);
         rbtnCruza2Punto.setBounds(0, 370, 200, 20);
@@ -239,6 +247,8 @@ public class Interfaz {
         pnlMain.add(rbtnSelPorRuleta);
         pnlMain.add(rbtnSelEstocasticaCR);
         pnlMain.add(rbtnSelEstocasticaSR);
+        pnlMain.add(rbtnSelPorJerarquia);
+        pnlMain.add(rbtnSelPorTorneo);
         pnlMain.add(lblSelecTCruza);
         pnlMain.add(rbtnCruza1Punto);
         pnlMain.add(rbtnCruza2Punto);
@@ -265,7 +275,7 @@ public class Interfaz {
         });
         btnAcept.addActionListener((ActionEvent event) -> {
             try{
-                //FALTA VALIDAR QUE LA FORMULA ES ACAPTABLE
+                //FALTA VALIDAR QUE LA FORMULA ES ACEPTABLE
                 int lMin,lMax,tR,nI,dif,tS,tC,tM,nG;
                 lblFunction = new JLabel();
                 lblFunction.setText(funcion);
@@ -295,8 +305,12 @@ public class Interfaz {
                     tS = 1;
                 else if(rbtnSelEstocasticaCR.isSelected())
                     tS = 2;
-                else
+                else if(rbtnSelEstocasticaSR.isSelected())
                     tS = 3;
+                else if(rbtnSelPorJerarquia.isSelected())
+                    tS = 4;
+                else
+                    tS = 5;
                 if(rbtnCruza1Punto.isSelected()){
                     tC = 0;
                 }
@@ -402,7 +416,7 @@ public class Interfaz {
     
     private void showData(){
         int w = 700;
-        int h = 660;
+        int h = 680;
         
         jfGraf = new JFrame();
         jfGraf.setSize(w, h);

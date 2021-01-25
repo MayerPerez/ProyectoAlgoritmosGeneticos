@@ -70,6 +70,12 @@ public class Optimizacion {
             case 3:
                 aux = FuncAG.selecEstocasticaSinRemplazo(generaciones.get(g).getGeneracion(),Function);
             break;
+            case 4:
+                aux = FuncAG.selecPorJerarquia(generaciones.get(g).getGeneracion(), Function);
+            break;
+            case 5:
+                aux = FuncAG.selecPorTorneo(generaciones.get(g).getGeneracion(), Function);
+            break;
             default:
                 aux = null;
             break;

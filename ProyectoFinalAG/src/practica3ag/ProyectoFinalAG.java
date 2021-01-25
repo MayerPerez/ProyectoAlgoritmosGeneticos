@@ -10,6 +10,8 @@ Clase principal
 */
 package practica3ag;
 
+import java.util.ArrayList;
+
 public class ProyectoFinalAG {
 
     public static void main(String[] args) {
@@ -26,16 +28,16 @@ public class ProyectoFinalAG {
         Representacion binaria
         Generaciones de 6 individuos
         */
-        /*Optimizacion opt = new Optimizacion(0,0,31,0,6);
+        /*Optimizacion opt = new Optimizacion("x^2",0,31,0,6);
         for(Individuo ind: opt.getGenInicial()){
-            System.out.println(ind.getGenotipoString());
+            System.out.println(ind.getVFitness());
         }
         System.out.println("");
-        ArrayList<Individuo> aux = FuncAG.mutaHeuristica(opt.getGenInicial(),opt.getNumBits());
-        System.out.println("\n\nResultado");
+        ArrayList<Individuo> aux = FuncAG.selecPorTorneo(opt.getGenInicial(), "x^2");
+        /*System.out.println("\n\nResultado");
         for(int i=0;i<aux.size();i++){
             System.out.println(aux.get(i).getGenotipoString());
-        }*/
+        }//*/
         /*byte b[] = {0,1,1,0,0,1};
         ArrayList<Integer> g = new ArrayList<>();
         g.add(1);

@@ -25,23 +25,6 @@ public class Generacion {
         }
         prom = prom/g.size();
     }
-    
-    //-----------FUNCIONES DE APTITUP-------------
-    private int f1(int fen){
-        return (int) Math.pow(fen, 2);
-    }
-    
-    private double f2(int fen){
-        return Math.abs((fen-5)/(2+Math.sin(fen)));
-    }
-    
-    private double f3(int fen){
-        if(fen == 0)
-            return 0;
-        return fen*Math.log(fen)*Math.cos(fen);
-    }
-    //-----------------------------------------
-    
     //FUNCION PARA OBTENER EL VALOR QUE MAXIMIZA LA FUNCION
     public int getMax(){
         int index = 0;

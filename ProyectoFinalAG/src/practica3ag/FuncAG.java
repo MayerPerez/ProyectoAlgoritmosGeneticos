@@ -84,6 +84,22 @@ public class FuncAG {
         }
         return bg;
     }
+    //FUNCION PARA BARAJAR LOS INDICE DE LOS INDIVIDUOS
+    public static ArrayList<Integer> barajar(int n){
+        ArrayList<Integer> orden = new ArrayList<>();
+        Random r = new Random();
+        int ng;
+        for(int i=0;i<n;i++){
+            ng = r.nextInt(n);
+            if(!orden.contains(ng)){
+                orden.add(ng);
+            }
+            else{
+                i--;
+            }
+        }
+        return orden;
+    } 
     
     
     //----FUNCIONES DE SELECCION-------
@@ -205,6 +221,54 @@ public class FuncAG {
         }
         return aux;
     }
+    public static ArrayList<Individuo> selecPorJerarquia(ArrayList<Individuo> gen,String f){
+        Generacion gaux = new Generacion(gen,f);
+        Individuo indAux;
+        ArrayList<Individuo> aux = gaux.getGeneracion();
+        //ordenamiento de individuos segun su aptitud
+        for(int i=0;i<gen.size();i++){
+            for(int j=i;j<gen.size();j++){
+                if(aux.get(i).getVFitness() > aux.get(j).getVFitness()){
+                    indAux = aux.get(i);
+                    aux.set(i, aux.get(j));
+                    aux.set(j, indAux);
+                }
+            }
+        }
+        //se utiliza seleccion por ruleta para seleccionar los individuos
+        aux = selecPorRuleta(aux);
+        
+        return aux;
+    }
+    public static ArrayList<Individuo> selecPorTorneo(ArrayList<Individuo> gen, String f){
+        ArrayList<Individuo> aux = new ArrayList<>();
+        Generacion gaux = new Generacion(gen,f);
+        ArrayList<Individuo> agaux = gaux.getGeneracion();
+        //Hacemos el primer barajeo
+        ArrayList<Integer> b1 = barajar(gen.size());
+        //Hacemos el segundo barajeo
+        ArrayList<Integer> b2 = barajar(gen.size());
+        for(int i=0;i<gen.size()/2;i++){
+            //metemos el individuo que gane de los dos que compiten del primer barajeo
+            if(agaux.get(b1.get(i)).getVFitness() > agaux.get(b1.get(i+1)).getVFitness()){
+                aux.add(agaux.get(b1.get(i)));
+            }
+            else{
+                aux.add(agaux.get(b1.get(i+1)));
+            }
+            //metemos el individuo que gane de los dos que compiten del seguro barajeo
+            if(agaux.get(b2.get(i)).getVFitness() > agaux.get(b2.get(i+1)).getVFitness()){
+                aux.add(agaux.get(b2.get(i)));
+            }
+            else{
+                aux.add(agaux.get(b2.get(i+1)));
+            }
+        }
+        
+        return aux;
+    }
+    
+    
     //---------------------------------
     
     //----FUNCIONES DE CRUZA-----------
