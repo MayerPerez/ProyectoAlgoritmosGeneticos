@@ -10,11 +10,16 @@ Clase principal
 */
 package practica3ag;
 
-public class Practica3AG {
+public class ProyectoFinalAG {
 
     public static void main(String[] args) {
         new Interfaz();
         
+        /*String f = "x^2";
+        int valor = 5;
+        double fx = InfijoAPostfijo.Evaluation(f, valor);
+        System.out.println(fx);
+        */
         /*
         Funcion x^2
         De 0 a 31

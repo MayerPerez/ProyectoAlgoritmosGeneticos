@@ -265,6 +265,7 @@ public class Interfaz {
         });
         btnAcept.addActionListener((ActionEvent event) -> {
             try{
+                //FALTA VALIDAR QUE LA FORMULA ES ACAPTABLE
                 int lMin,lMax,tR,nI,dif,tS,tC,tM,nG;
                 lblFunction = new JLabel();
                 lblFunction.setText(funcion);
