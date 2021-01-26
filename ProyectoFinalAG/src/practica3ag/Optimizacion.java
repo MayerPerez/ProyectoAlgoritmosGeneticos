@@ -8,7 +8,7 @@ Genetic Algorithms 3CM1
 package practica3ag;
 
 import java.util.ArrayList;
-
+import java.util.Random;
 
 public class Optimizacion {
     private ArrayList<Individuo> gen = new ArrayList<>();
@@ -47,9 +47,13 @@ public class Optimizacion {
     }
     
     public void iteracion(int tS,int tC,int tM){
+        Random r = new Random();
+        float vC = r.nextFloat();//valor aleatorio que determina si habra cruza
         ArrayList<Individuo> aux;
         aux = seleccion(tS);
-        aux = cruza(tC,aux);
+        if(vC <= 0.7){
+            aux = cruza(tC,aux);
+        }
         aux = mutacion(tM,aux);
         generaciones.add(new Generacion(aux,Function));
     }

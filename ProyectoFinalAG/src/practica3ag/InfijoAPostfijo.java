@@ -100,7 +100,7 @@ public class InfijoAPostfijo {
   //Jerarquia de los operadores
   private static int pref(String op) {
     int prf = 99;
-    if(op.equals("S") || op.equals("C") || op.equals("T") || op.equals("L")) prf = 6;
+    if(op.equals("S") || op.equals("C") || op.equals("T") || op.equals("L") || op.equals("A")) prf = 6;
     if (op.equals("^")) prf = 5;
     if (op.equals("*") || op.equals("/")) prf = 4;
     if (op.equals("+") || op.equals("-")) prf = 3;
@@ -117,7 +117,7 @@ public class InfijoAPostfijo {
     public static double Evaluation(String expr,int valor){  
    
         String exprP = InfiPostfi(expr);
-
+        
         double resultado;
         //Entrada (Expresión en Postfija)
         String[] post = exprP.split(" ");   
@@ -133,8 +133,8 @@ public class InfijoAPostfijo {
         
         //Algoritmo de Evaluación Postfija
         String operadores = "+-*/%^";
-        String ingcognitas = "xy";
-        String funciones = "SCTLA";//Error con las funciones trigonometricas
+        String ingcognitas = "x";
+        String funciones = "SCTLA";
         while (!E.isEmpty()) {
           if (operadores.contains("" + E.peek())) {
             P.push(evaluar(E.pop(), P.pop(), P.pop()) + "");
@@ -178,6 +178,15 @@ public class InfijoAPostfijo {
         return 0;
   }
   
+    public static boolean esValida(String f){
+        String caracValid = "+-*/%^()xSCTLA0123456789";
+        for(int i=0;i<f.length();i++){
+            if(!caracValid.contains(String.valueOf(f.charAt(i)))){
+                return false;
+            }
+        }
+        return true;
+    }
 }
   //Depurar expresión algebraica
 

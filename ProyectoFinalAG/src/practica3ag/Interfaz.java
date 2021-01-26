@@ -99,14 +99,20 @@ public class Interfaz {
     private DefaultCategoryDataset dataset;
     private JFreeChart chart;
     private ChartPanel panelG;
+    private JButton btnDatosSig;
+    private JButton btnDatosAnt;
     private int cont;
     private String funcion = "";
     private String titles[] = {"No. Individuo","Genotipo","Fenotipo","f(x)"};
+    private int numIndGraf = 16;
+    private int limInf;
+    private int limSup;
+    private ArrayList<Individuo> genAct;
     
     public Interfaz(){
         initMainComponents();
     }
-    
+    //VENTANA PRINCIPAL
     private void initMainComponents(){
         int w = 500;
         int h = 580;//530
@@ -276,7 +282,6 @@ public class Interfaz {
         });
         btnAcept.addActionListener((ActionEvent event) -> {
             try{
-                //FALTA VALIDAR QUE LA FORMULA ES ACEPTABLE
                 int lMin,lMax,tR,nI,dif,tS,tC,tM,nG;
                 lblFunction = new JLabel();
                 lblFunction.setText(funcion);
@@ -336,8 +341,6 @@ public class Interfaz {
                 for(int i=0;i<nG;i++){
                     opt.iteracion(tS, tC, tM);
                 }
-                //lblIndMax.setText("Mejor individuo: #"+(opt.getMax()+1));
-                //lblIndMin.setText("Peor individuo: #"+(opt.getMin()+1));
                 showData();
             }
             catch(LanzarException e){
@@ -350,7 +353,7 @@ public class Interfaz {
             }
         });
     }
-    
+    //VENTANA PARA AGREGAR FUNCION
     private void initComponentsIngFunc(){
         int w = 400;
         int h = 300;
@@ -371,15 +374,18 @@ public class Interfaz {
         
         jtaIndIngFunc.setText("==================== INDICACIONES ====================\n\n"
                 + " La variable que se utiliza es: x\n\n"
-                +  " Para realizar una potencia o raiz:\n" 
-                +  " Escribe x^n sustituyendo n por algun valor.\n\n" 
-                +  " Para realizar alguna funcion trigonometrica:\n" 
-                +  " Para sen(expresion) --> escribe S(expresion)\n" 
-                +  " Para cos(expresion) --> escribe C(expresion)\n" 
+                + " Para realizar una potencia o raiz:\n" 
+                + " Escribe x^n sustituyendo n por algun valor.\n\n" 
+                + " Para realizar alguna funcion trigonometrica:\n" 
+                + " Para sen(expresion) --> escribe S(expresion)\n" 
+                + " Para cos(expresion) --> escribe C(expresion)\n" 
                 + " Para tan(expresion) --> escribe T(expresion)\n"
                 + " Para log(expresion) --> escribe L(expresion)\n"
-                + " Para abs(expresion) --> escribe A(expresion)\n"
-                +  "" );
+                + " Para abs(expresion) --> escribe A(expresion)\n\n"
+                + " Ejemplo de funciones:\n"
+                + " - x^2\n"
+                + " - S(x+3)/(x+2)\n" 
+                + " - A((x-5)/(2+S(x)))\n\n");
         
         jtaIndIngFunc.setEditable(false);
         
@@ -407,6 +413,9 @@ public class Interfaz {
                 if(funcion.equals("")){
                     throw new LanzarException(4);
                 }
+                else if(!InfijoAPostfijo.esValida(funcion)){
+                    throw new LanzarException(5);
+                }
                 else{
                     lblFunc.setText("Funcion:  "+funcion);
                     pnlMain.add(lblFunc);
@@ -424,15 +433,15 @@ public class Interfaz {
             }
         });
     }
-    
+    //VENTANA DE GENRACIONES Y GRAFICA
     private void showData(){
-        int w = 700;
-        int h = 680;
+        int w = 710;
+        int h = 700;
         
         jfGraf = new JFrame();
         jfGraf.setSize(w, h);
         jfGraf.setTitle("Generacion Inicial");
-        jfGraf.setLocation(300, 40);
+        jfGraf.setLocationRelativeTo(null);
         jfGraf.setResizable(false);
         jfGraf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         jfGraf.setLayout(null);
@@ -443,6 +452,8 @@ public class Interfaz {
         jspt = new JScrollPane(t);
         btnNextGen = new JButton("SIG");
         btnPrevGen = new JButton("ANT");
+        btnDatosSig = new JButton("Individuos Siguientes");
+        btnDatosAnt = new JButton("Individuos Anteriores");
         lblIndMax = new JLabel();
         lblIndMin = new JLabel();
         lblIndMax.setText("Mejor individuo: #"+(opt.getGeneraciones().get(0).getMax()+1));
@@ -457,19 +468,31 @@ public class Interfaz {
         
         btnPrevGen.setVisible(false);
         
-        ArrayList<Individuo> aux = FuncAG.ordInd(opt.getGeneraciones().get(0).getGeneracion());
+        genAct = FuncAG.ordInd(opt.getGeneraciones().get(0).getGeneracion());
         
         dataset = new DefaultCategoryDataset();
-        for(int i=0;i<opt.getNumeroIndi();i++){
-            dataset.setValue(aux.get(i).getVFitness(),"Valor Fitness",
-                    String.valueOf(aux.get(i).getFenotipo() ));
+        if(genAct.size()<= numIndGraf){
+            for(int i=0;i<genAct.size();i++){
+                dataset.addValue(genAct.get(i).getVFitness(),"Valor Fitness",
+                        String.valueOf(genAct.get(i).getFenotipo() ));
+            }
+            btnDatosSig.setVisible(false);
         }
-        
+        else{
+            for(int i=0;i<numIndGraf;i++){
+                dataset.addValue(genAct.get(i).getVFitness(),"Valor Fitness",
+                        String.valueOf(genAct.get(i).getFenotipo() ));
+            }
+            limInf = 0;
+            limSup = numIndGraf;
+            btnDatosSig.setVisible(true);
+        }
         chart = ChartFactory.createLineChart("Histograma", "x", "f(x)", dataset,
                 PlotOrientation.VERTICAL,true,true,false);
         
         panelG = new ChartPanel(chart);
         
+        btnDatosAnt.setVisible(false);
         
         pnlGraf.setBounds(0, 0, w, h);
         btnPrevGen.setBounds(5, 5, 70, 30);
@@ -477,9 +500,11 @@ public class Interfaz {
         lblFunction.setBounds(170, 5, 160, 30);
         lblIndMax.setBounds(300, 5, 150, 30);
         lblIndMin.setBounds(480, 5, 150, 30);
-        btnNextGen.setBounds(610, 5, 70, 30);
+        btnNextGen.setBounds(620, 5, 70, 30);
         jspt.setBounds(0, 40, w, 180);
-        panelG.setBounds(0, 220, w, 410);
+        panelG.setBounds(0, 220, w-20, 410);
+        btnDatosAnt.setBounds(5, 635, 200, 20);
+        btnDatosSig.setBounds(490, 635, 200, 20);
         
         pnlGraf.add(btnPrevGen);
         pnlGraf.add(lblWordF);
@@ -488,7 +513,10 @@ public class Interfaz {
         pnlGraf.add(lblIndMin);
         pnlGraf.add(btnNextGen);
         pnlGraf.add(jspt);
+        pnlGraf.add(btnDatosAnt);
+        pnlGraf.add(btnDatosSig);
         pnlGraf.add(panelG);
+        
         
         jfGraf.add(pnlGraf);
         
@@ -512,18 +540,25 @@ public class Interfaz {
                     return false;
                 }
             });
-            /*PROBLEMAS AL ACTUALIZAR LA GRAFICA Y AL ORDENAR LOS DATOS SEGUN SU FENOTIPO
-            */
-            ArrayList<Individuo> aux = FuncAG.ordInd(opt.getGeneraciones().get(cont).getGeneracion());
+            genAct = FuncAG.ordInd(opt.getGeneraciones().get(cont).getGeneracion());
             dataset.clear();
-            for(int i=0;i<aux.size();i++){
-                dataset.setValue(aux.get(i).getVFitness(),"Valor Fitness",
-                        String.valueOf(aux.get(i).getFenotipo() ));
+            if(genAct.size()<= numIndGraf){
+                for(int i=0;i<genAct.size();i++){
+                    dataset.addValue(genAct.get(i).getVFitness(),"Valor Fitness",
+                            String.valueOf(genAct.get(i).getFenotipo() ));
+                }
             }
-            /*chart = ChartFactory.createLineChart("Histograma", "x", "f(x)", dataset,
-                PlotOrientation.VERTICAL,true,true,false);
-            panelG = new ChartPanel(chart);*/
-            //System.out.println(opt.getGeneraciones().size()+" "+cont);
+            else{
+                for(int i=0;i<numIndGraf;i++){
+                    dataset.addValue(genAct.get(i).getVFitness(),"Valor Fitness",
+                            String.valueOf(genAct.get(i).getFenotipo() ));
+                }
+                limInf = 0;
+                limSup = numIndGraf;
+                btnDatosSig.setVisible(true);
+            }
+            
+                
             if(cont == opt.getGeneraciones().size()-1){
                 btnNextGen.setVisible(false);
             }
@@ -542,21 +577,64 @@ public class Interfaz {
                     return false;
                 }
             });
-            ArrayList<Individuo> aux = FuncAG.ordInd(opt.getGeneraciones().get(cont).getGeneracion());
+            genAct = FuncAG.ordInd(opt.getGeneraciones().get(cont).getGeneracion());
             dataset.clear();
-            for(int i=0;i<aux.size();i++){
-                dataset.setValue(aux.get(i).getVFitness(),"Valor Fitness",
-                        String.valueOf(aux.get(i).getFenotipo() ));
+            if(genAct.size()<= numIndGraf){
+                for(int i=0;i<genAct.size();i++){
+                    dataset.addValue(genAct.get(i).getVFitness(),"Valor Fitness",
+                            String.valueOf(genAct.get(i).getFenotipo() ));
+                }
             }
-            /*chart = ChartFactory.createLineChart("Histograma", "x", "f(x)", dataset,
-                PlotOrientation.VERTICAL,true,true,false);
-            panelG = new ChartPanel(chart);*/
+            else{
+                for(int i=0;i<numIndGraf;i++){
+                    dataset.addValue(genAct.get(i).getVFitness(),"Valor Fitness",
+                            String.valueOf(genAct.get(i).getFenotipo() ));
+                }
+            }
             if(cont == 0){
                 jfGraf.setTitle("Generacion Inicial");
                 btnPrevGen.setVisible(false);
             }
             
         }); 
+        btnDatosSig.addActionListener((ActionEvent event) -> {
+            limInf+=numIndGraf;
+            limSup+=numIndGraf;
+            dataset.clear();
+            if(limSup > genAct.size()){
+                for(int i=limInf;i<genAct.size();i++){
+                    dataset.addValue(genAct.get(i).getVFitness(),"Valor Fitness",
+                            String.valueOf(genAct.get(i).getFenotipo() ));
+                }
+                btnDatosSig.setVisible(false);
+            }
+            else{
+                for(int i=limInf;i<limSup;i++){
+                    dataset.addValue(genAct.get(i).getVFitness(),"Valor Fitness",
+                            String.valueOf(genAct.get(i).getFenotipo() ));
+                }
+            }
+            btnDatosAnt.setVisible(true);
+        });
+        btnDatosAnt.addActionListener((ActionEvent event) -> {
+            limInf-=numIndGraf;
+            limSup-=numIndGraf;
+            dataset.clear();
+            if(limInf <= 0){
+                for(int i=0;i<limSup;i++){
+                    dataset.addValue(genAct.get(i).getVFitness(),"Valor Fitness",
+                            String.valueOf(genAct.get(i).getFenotipo() ));
+                }
+                btnDatosAnt.setVisible(false);
+            }
+            else{
+                for(int i=limInf;i<limSup;i++){
+                    dataset.addValue(genAct.get(i).getVFitness(),"Valor Fitness",
+                            String.valueOf(genAct.get(i).getFenotipo() ));
+                }
+            }
+            btnDatosSig.setVisible(true);
+        });
     }
     
     public class LanzarException extends Exception{
@@ -576,6 +654,10 @@ public class Interfaz {
             else if(n == 4){
                 JOptionPane.showMessageDialog(jfSelecFunc, "No se ha introducido funcion.",
                     "Introduce funcion",JOptionPane.WARNING_MESSAGE);
+            }
+            else if(n == 4){
+                JOptionPane.showMessageDialog(jfSelecFunc, "Funcion con caracteres no validos.",
+                    "Funcion Invalida",JOptionPane.WARNING_MESSAGE);
             }
         }
     }
