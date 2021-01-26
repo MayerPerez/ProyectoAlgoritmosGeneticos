@@ -85,7 +85,7 @@ public class InfijoAPostfijo {
   private static String depurar(String s) {
     s = s.replaceAll("\\s+", ""); //Elimina espacios en blanco
     s = "(" + s + ")";
-    String simbols = "+-*/()^";
+    String simbols = "+-*/()^SCTL";
     String str = "";
  
     //Deja espacios entre operadores
@@ -116,66 +116,66 @@ public class InfijoAPostfijo {
   
     public static double Evaluation(String expr,int valor){  
    
-    String exprP = InfiPostfi(expr);
+        String exprP = InfiPostfi(expr);
+
+        double resultado;
+        //Entrada (Expresión en Postfija)
+        String[] post = exprP.split(" ");   
         
-    double resultado;
-    //Entrada (Expresión en Postfija)
-    String[] post = exprP.split(" ");   
-   
-    //Declaración de las pilas
-    Stack < String > E = new Stack <  > (); //Pila entrada
-    Stack < String > P = new Stack <  > (); //Pila de operandos
+        //Declaración de las pilas
+        Stack < String > E = new Stack <  > (); //Pila entrada
+        Stack < String > P = new Stack <  > (); //Pila de operandos
 
-    //Añadir post (array) a la Pila de entrada (E)
-    for (int i = post.length - 1; i >= 0; i--) {
-      E.push(post[i]);
-    }
+        //Añadir post (array) a la Pila de entrada (E)
+        for (int i = post.length - 1; i >= 0; i--) {
+          E.push(post[i]);
+        }
+        
+        //Algoritmo de Evaluación Postfija
+        String operadores = "+-*/%^";
+        String ingcognitas = "xy";
+        String funciones = "SCTLA";//Error con las funciones trigonometricas
+        while (!E.isEmpty()) {
+          if (operadores.contains("" + E.peek())) {
+            P.push(evaluar(E.pop(), P.pop(), P.pop()) + "");
+          }
+          else if(ingcognitas.contains("" + E.peek())){
+              E.pop();
+              P.push(String.valueOf(valor) + "");
+          }
+          else if(funciones.contains("" + E.peek())){
+              P.push(evaluarf(E.pop(),P.pop())+"");
+          }
+          else {
+            P.push(E.pop());
+          }
+        }
 
-    //Algoritmo de Evaluación Postfija
-    String operadores = "+-*/%^";
-    String ingcognitas = "xy";
-    String funciones = "SCTL";//Error con las funciones trigonometricas
-    while (!E.isEmpty()) {
-      if (operadores.contains("" + E.peek())) {
-        P.push(evaluar(E.pop(), P.pop(), P.pop()) + "");
-      }
-      else if(ingcognitas.contains("" + E.peek())){
-          E.pop();
-          P.push(String.valueOf(valor) + "");
-      }
-      else if(funciones.contains("" + E.peek())){
-          P.push(String.valueOf(evaluarf(E.pop(),valor)+""));
-      }
-      else {
-        P.push(E.pop());
-      }
-    }
-
-    //Mostrar resultados:
-    //System.out.println("Expresion: " + exprP);
-    //System.out.println("Resultado: " + P.peek());
-    resultado = Double.parseDouble(P.peek()); //si regresa double? o entero?
-    return resultado;
+        resultado = Double.parseDouble(P.peek());
+        return resultado;
+        
   }
 
   private static double evaluar(String op, String n2, String n1) {
-    double num1 = Double.parseDouble(n1);
-    double num2 = Double.parseDouble(n2);
-    if (op.equals("+")) return (num1 + num2);
-    if (op.equals("-")) return (num1 - num2);
-    if (op.equals("*")) return (num1 * num2);
-    if (op.equals("/")) return (num1 / num2);
-    if (op.equals("%")) return (num1 % num2);
-    if (op.equals("^")) return (Math.pow(num1, num2));
-    return 0;
+        double num1 = Double.parseDouble(n1);
+        double num2 = Double.parseDouble(n2);
+        if (op.equals("+")) return (num1 + num2);
+        if (op.equals("-")) return (num1 - num2);
+        if (op.equals("*")) return (num1 * num2);
+        if (op.equals("/")) return (num1 / num2);
+        if (op.equals("%")) return (num1 % num2);
+        if (op.equals("^")) return (Math.pow(num1, num2));
+        return 0;
   }
   
-    private static double evaluarf(String op, int valor) {
-    if (op.equals("S")) return Math.sin(valor);
-    if (op.equals("C")) return Math.cos(valor);
-    if (op.equals("T")) return Math.tan(valor);
-    if (op.equals("L")) return Math.log(valor);
-    return 0;
+    private static double evaluarf(String op, String n) {
+        double valor = Double.parseDouble(n);
+        if (op.equals("S")) return Math.sin(valor);
+        if (op.equals("C")) return Math.cos(valor);
+        if (op.equals("T")) return Math.tan(valor);
+        if (op.equals("L")) return Math.log(valor);
+        if (op.equals("A")) return Math.abs(valor);
+        return 0;
   }
   
 }

@@ -81,6 +81,7 @@ public class Interfaz {
     private JFrame jfSelecFunc;
     private JPanel jpSelecFunc;
     private JTextArea jtaIndIngFunc;
+    private JScrollPane jspFunc;
     private JLabel lblIngFunc;
     private JTextField jtfIngFunc;
     private JButton btnAddFunc;
@@ -119,7 +120,7 @@ public class Interfaz {
         pnlMain = new JPanel(null);
         lblSelecF = new JLabel("Ingresa la funcion a optimizar:");
         btnIngrFunc = new JButton("Ingresar Formula");
-        lblFunc = new JLabel();
+        lblFunc = new JLabel("");
         lblSelecTAG = new JLabel("Selecciona el tipo de algoritmo genetico:");
         rbtnModGen = new JRadioButton("Modelo Generacional");
         rbtnModElit = new JRadioButton("Modelo Elitista");
@@ -194,7 +195,7 @@ public class Interfaz {
         pnlMain.setBounds(0, 0, w, h);
         lblSelecF.setBounds(3, 0, 200, 20);
         btnIngrFunc.setBounds(20, 40, 150, 25);
-        lblFunc.setBounds(5, 80, 100, 30);
+        lblFunc.setBounds(5, 80, 300, 30);
         lblSelecTAG.setBounds(240, 0, 250, 20);//3, 130, 250, 20
         rbtnModGen.setBounds(240, 20, 150, 20);
         rbtnModElit.setBounds(240, 50, 150, 20);
@@ -363,23 +364,34 @@ public class Interfaz {
         
         jpSelecFunc = new JPanel(null);
         jtaIndIngFunc = new JTextArea();
+        jspFunc = new JScrollPane(jtaIndIngFunc);
         lblIngFunc = new JLabel("Ingresa Funcion:");
-        jtfIngFunc = new JTextField();
+        jtfIngFunc = new JTextField(funcion);
         btnAddFunc = new JButton("Ingresar Funcion");
         
-        jtaIndIngFunc.setText("INDICACIONES:\n");
+        jtaIndIngFunc.setText("==================== INDICACIONES ====================\n\n"
+                + " La variable que se utiliza es: x\n\n"
+                +  " Para realizar una potencia o raiz:\n" 
+                +  " Escribe x^n sustituyendo n por algun valor.\n\n" 
+                +  " Para realizar alguna funcion trigonometrica:\n" 
+                +  " Para sen(expresion) --> escribe S(expresion)\n" 
+                +  " Para cos(expresion) --> escribe C(expresion)\n" 
+                + " Para tan(expresion) --> escribe T(expresion)\n"
+                + " Para log(expresion) --> escribe L(expresion)\n"
+                + " Para abs(expresion) --> escribe A(expresion)\n"
+                +  "" );
         
         jtaIndIngFunc.setEditable(false);
         
         jpSelecFunc.setBounds(0, 0, w, h);
-        jtaIndIngFunc.setBounds(0, 3, w, 180);
+        jspFunc.setBounds(0, 3, w, 180);
         lblIngFunc.setBounds(5,190,100,30);
         jtfIngFunc.setBounds(105,190,250,30);
         btnAddFunc.setBounds(110,230,150,20);
         
         intiEventsIngFunc();
         
-        jpSelecFunc.add(jtaIndIngFunc);
+        jpSelecFunc.add(jspFunc);
         jpSelecFunc.add(lblIngFunc);
         jpSelecFunc.add(jtfIngFunc);
         jpSelecFunc.add(btnAddFunc);
@@ -465,7 +477,7 @@ public class Interfaz {
         lblFunction.setBounds(170, 5, 160, 30);
         lblIndMax.setBounds(300, 5, 150, 30);
         lblIndMin.setBounds(480, 5, 150, 30);
-        btnNextGen.setBounds(620, 5, 70, 30);
+        btnNextGen.setBounds(610, 5, 70, 30);
         jspt.setBounds(0, 40, w, 180);
         panelG.setBounds(0, 220, w, 410);
         

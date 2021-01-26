@@ -16,12 +16,14 @@ public class ProyectoFinalAG {
 
     public static void main(String[] args) {
         new Interfaz();
-        
-        /*String f = "x^2";
-        int valor = 5;
-        double fx = InfijoAPostfijo.Evaluation(f, valor);
+        //S(x+3)/(x+2)
+        /*String f = "S(x+3)/(x+2)";
+        String fp = InfijoAPostfijo.InfiPostfi(f);
+        System.out.println("Main:  "+ fp);
+        int x = 5;
+        double fx = InfijoAPostfijo.Evaluation(f, x);
         System.out.println(fx);
-        */
+        
         /*
         Funcion x^2
         De 0 a 31
